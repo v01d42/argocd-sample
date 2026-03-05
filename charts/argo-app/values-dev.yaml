@@ -2,23 +2,23 @@ applicationSet:
   name: application-set-dev
   project: default
   valueSourceRepo:
-    url: https://github.com/V01d42/argocd-sample
+    url: https://github.com/v01d42/argocd-sample
     ref: values
     targetRevision: main
   syncPolicy:
     automated: {}
     syncOptions:
       - CreateNamespace=true
-  
+
   labels:
     env: development
   annotations:
     description: "dev-application-set"
-  
+
   defaults:
     cluster: https://kubernetes.default.svc
     valuesFile: values-dev.yaml
-  
+
   applications:
     - name: prometheus
       repoURL: https://prometheus-community.github.io/helm-charts
