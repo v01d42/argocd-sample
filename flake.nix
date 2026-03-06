@@ -14,7 +14,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.treefmt-nix.flakeModule
-      ]
+      ];
       systems = ["aarch64-darwin" "x86_64-linux" "aarch64-linux" "x86_64-darwin"];
 
       perSystem = {
@@ -43,12 +43,12 @@
         };
 
         treefmt = {
-          projectRootFile = "flake.nix"
+          projectRootFile = "flake.nix";
           programs = {
             nixpkgs-fmt.enable = true;
             gofmt.enable = true;
           };
-          setting.formatter = {  };
+          settings.formatter = {  };
         };
       };
     };
