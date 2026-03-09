@@ -3,12 +3,14 @@ applications:
     namespace: argocd
     project: default
     source:
-      repoURL: git@github.com:v01d42/argocd-sample.git
-      targetRevision: main
+      repoURL: https://github.com/v01d42/argocd-sample.git
       path: helmfiles
-      directory:
-        recurse: false
-        include: "*.yaml"
+      targetRevision: main
+      plugin:
+        name: helmfile
+        parameters:
+          - name: name
+            value: argo-app-bundle
     destination:
       server: https://kubernetes.default.svc
       namespace: argocd
