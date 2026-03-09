@@ -1,0 +1,89 @@
+configs:
+  cmp:
+    create: true
+    plugins:
+      helmfile:
+        discover:
+          filename: helmfile.yaml
+        parameters:
+          static:
+            - name: name
+              title: Helmfile Release Name
+              required: true
+          generate:
+            command:
+              - bash
+              - "-c"
+              - |
+                if [[ -v ENV_NAME ]]; then
+                  helmfile -e $ENV_NAME -l name="$PARAM_NAME" templete --include-crds -q
+                elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
+                  helmfile -e $ARGOCD_ENV_ENV_NAME -l name="$PARAM_NAME" templete --include-crds -q
+                else
+                  helmfile -l name="$PARAM_NAME" templete --include-crds -q
+                fi
+
+controller:
+  enabled: true
+
+repoServer:
+  enabled: true
+  extraContainers:
+    - name: helmfile
+      command:
+        - /var/run/argocd/argocd-cmp-server
+      image: ghcr.io/helmfile/helmfile:v1.4.1
+      env:
+        - name: ENV_NAME
+          value: {{ .Environment.Name }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /home/argocd/cmp-server/config/plugins.yaml
+          subPath: plugins.yaml
+          name: argocd-cmp-cm
+        - mountPath: /tmp
+          name: helmfile-tmp
+  volumes:
+    - name: argocd-cmp-cm
+      configMap:
+        name: argocd-cmp-cm
+    - name: helmfile-tmp
+      emptyDir: {}
+
+server:
+  enabled: true
+  service:
+    type: NodePort
+  initalAdminPassword: admin
+
+redis:
+  enabled: true
+
+redis-ha:
+  enabled: false
+
+dex:
+  enabled: false
+
+notifications:
+  enabled: true
+
+# Initial Repositories and Applications
+# initialRepos: []
+# initialApplications: []
+
+grafana:
+  enabled: false
+
+prometheus:
+  enabled: false
+  kube-state-metrics:
+    enabled: false
+  pushgateway:
+    enabled: false
