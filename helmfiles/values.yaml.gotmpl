@@ -1,0 +1,43 @@
+applications:
+  prometheus:
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/v01d42/argocd-sample.git
+      path: helmfiles/prometheus
+      targetRevision: main
+      plugin:
+        name: helmfile
+        parameters:
+          - name: name
+            value: prometheus
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: prometheus
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true
+  grafana:
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/v01d42/argocd-sample.git
+      path: helmfiles/grafana
+      targetRevision: main
+      plugin:
+        name: helmfile
+        parameters:
+          - name: name
+            value: grafana
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: grafana
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true

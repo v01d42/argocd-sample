@@ -1,21 +1,11 @@
 repositories:
-  - name: prometheus
-    url: https://prometheus-community.github.io/helm-charts
-  - name: grafana
-    url: https://grafana.github.io/helm-charts
+  - name: argo
+    url: https://argoproj.github.io/argo-helm
 
 releases:
-  - name: prometheus
-    namespace: prometheus
-    chart: prometheus
-    version:
+  - name: argo-app-bundle
+    namespace: argocd
+    chart: argo/argocd-apps
+    version: 2.0.4
     values:
-      - ./prometheus/values.yaml.gotmpl
-
-  - name: grafana
-    namespace: grafana
-    chart: grafana
-    version:
-    values:
-      - ./grafana/values.yaml.gotmpl
-
+      - ./values.yaml.gotmpl
