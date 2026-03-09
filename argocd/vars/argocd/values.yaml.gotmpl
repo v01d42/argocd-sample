@@ -10,18 +10,18 @@ configs:
             - name: name
               title: Helmfile Release Name
               required: true
-          generate:
-            command:
-              - bash
-              - "-c"
-              - |
-                if [[ -v ENV_NAME ]]; then
-                  helmfile -e $ENV_NAME -l name="$PARAM_NAME" templete --include-crds -q
-                elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
-                  helmfile -e $ARGOCD_ENV_ENV_NAME -l name="$PARAM_NAME" templete --include-crds -q
-                else
-                  helmfile -l name="$PARAM_NAME" templete --include-crds -q
-                fi
+        generate:
+          command:
+            - bash
+            - "-c"
+            - |
+              if [[ -v ENV_NAME ]]; then
+                helmfile -e $ENV_NAME -l name="$PARAM_NAME" template --include-crds -q
+              elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
+                helmfile -e $ARGOCD_ENV_ENV_NAME -l name="$PARAM_NAME" template --include-crds -q
+              else
+                helmfile -l name="$PARAM_NAME" template --include-crds -q
+              fi
 
 controller:
   enabled: true
@@ -36,6 +36,14 @@ repoServer:
       env:
         - name: ENV_NAME
           value: {{ .Environment.Name }}
+        - name: HOME
+          value: /tmp
+        - name: HELM_CACHE_HOME
+          value: /tmp/helm/.cache
+        - name: HELM_CONFIG_HOME
+          value: /tmp/helm/.config
+        - name: HELM_DATA_HOME
+          value: /tmp/helm/.local/share
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
