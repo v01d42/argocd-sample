@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: prd-apps
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/v01d42/argocd-sample.git
+        revision: HEAD
+        files:
+          - path: "charts/*/values/prd-value.yaml"
+  template:
+    metadata:
+      name: "monitor-{{ index .path.segments 1 }}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/v01d42/argocd-sample.git
+        targetRevision: HEAD
+        path: "{{index .path.segments 0 }}/{{index .path.segments 1}}"
+        helm:
+          valueFiles:
+            - "values/prd-value.yaml"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: prd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,8 @@
+apiVersion: v2
+name: podinfo
+description: A Helm chart wrapper for podinfo
+version: 0.1.0
+dependencies:
+  - name: podinfo
+    version: "6.11.1"
+    repository: "https://stefanprodan.github.io/podinfo"

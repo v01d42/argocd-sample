@@ -1,0 +1,14 @@
+podinfo:
+  replicaCount: 1
+  ui:
+    color: "#6C91C2"
+    message: "staging"
+  service:
+    type: NodePort
+    nodePort: 31001
+  resources:
+    limits:
+      memory: 64Mi
+    requests:
+      cpu: 1m
+      memory: 32Mi

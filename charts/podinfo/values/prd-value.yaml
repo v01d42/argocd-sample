@@ -1,0 +1,14 @@
+podinfo:
+  replicaCount: 2
+  ui:
+    color: "#4CAF50"
+    message: "production"
+  service:
+    type: NodePort
+    nodePort: 31002
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 2m
+      memory: 64Mi
