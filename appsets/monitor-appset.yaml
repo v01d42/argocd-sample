@@ -8,10 +8,10 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-      repoURL: https://github.com/v01d42/argocd-sample.git
-      revision: HEAD
-      files:
-        - path: "charts/*/values/monitor-value.yaml"
+        repoURL: https://github.com/v01d42/argocd-sample.git
+        revision: HEAD
+        files:
+          - path: "charts/*/values/monitor-value.yaml"
   template:
     metadata:
       name: "monitor-{{ index .path.segments 1 }}"
