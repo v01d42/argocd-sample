@@ -14,7 +14,7 @@ spec:
           - path: "charts/*/values/prd-value.yaml"
   template:
     metadata:
-      name: "monitor-{{ index .path.segments 1 }}"
+      name: "prd-{{ index .path.segments 1 }}"
     spec:
       project: default
       source:

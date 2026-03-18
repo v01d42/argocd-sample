@@ -14,7 +14,7 @@ spec:
           - path: "charts/*/values/stg-value.yaml"
   template:
     metadata:
-      name: "monitor-{{ index .path.segments 1 }}"
+      name: "stg-{{ index .path.segments 1 }}"
     spec:
       project: default
       source:
