@@ -1,0 +1,32 @@
+applicationsets:
+  monitor:
+    namespace: monitor
+    goTemplate: true
+    goTemplateOptions: ["missingkey=error"]
+    generators:
+      - git:
+        repoURL: https://github.com/v01d42/argocd-sample
+        revision: HEAD
+        files:
+          - path: "charts/*/values/monitor-value.yaml"
+    template:
+      metadata:
+        name: "monitor-{{ index .path.segments 1 }}"
+      spec:
+        project: default
+        source:
+          repoURL: https://github.com/v01d42/argocd-sample
+          targetRevision: HEAD
+          path: "{{index .path.segments 0 }}/{{index .path.segments 1}}"
+          helm:
+            valueFiles:
+              - "{{index .path.path}}/monitor-value.yaml"
+        destination:
+          server: https://kubernetes.default.svc
+          namespace: monitor
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          syncOptions:
+            - CreateNamespace=true
