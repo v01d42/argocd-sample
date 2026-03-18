@@ -5,7 +5,7 @@ podinfo:
     message: "staging"
   service:
     type: NodePort
-    nodePort: 31001
+    nodePort: 31020
   resources:
     limits:
       memory: 64Mi

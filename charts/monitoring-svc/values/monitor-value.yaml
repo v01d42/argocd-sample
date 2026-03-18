@@ -3,6 +3,11 @@ prometheus:
     persistentVolume:
       enabled: false
 
+    service:
+      type: NodePort
+      servicePort: 80
+      nodePort: 31000
+
   alartmnager:
     persistence:
       enabled: false
@@ -10,7 +15,7 @@ prometheus:
 grafana:
   service:
     type: NodePort
-    nodePort: 31000
+    nodePort: 31010
 
   adminUser: admin
   adminPassword: admin

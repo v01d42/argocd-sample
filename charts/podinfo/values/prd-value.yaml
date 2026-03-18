@@ -5,7 +5,7 @@ podinfo:
     message: "production"
   service:
     type: NodePort
-    nodePort: 31002
+    nodePort: 31021
   resources:
     limits:
       memory: 128Mi
