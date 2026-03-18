@@ -23,7 +23,7 @@ spec:
         path: "{{index .path.segments 0 }}/{{index .path.segments 1}}"
         helm:
           valueFiles:
-            - "{{index .path.path}}/monitor-value.yaml"
+            - "values/monitor-value.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: monitor
